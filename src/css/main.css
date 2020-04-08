@@ -8,7 +8,6 @@ aside {
 }
 main {
   flex-grow: 1;
-  border: 1px solid blueviolet;
 }
 
 
@@ -17,9 +16,22 @@ aside {
   display: flex;
   flex-direction: column;
 }
-aside .title {
+#asideTitle {
   padding: 10px 20px;
 }
-aside .song-list {
+#asideSongList {
   flex-grow: 1;
+}
+
+
+/* main */
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#dragArea {
+  padding: 200px;
+  border: 8px dashed #ddd;
+  cursor: pointer;
 }

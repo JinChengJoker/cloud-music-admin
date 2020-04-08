@@ -10,8 +10,8 @@
 <body>
   <div id="layout">
     <aside>
-      <div class="title bg-light text-center">歌曲列表</div>
-      <div class="song-list">
+      <div id="asideTitle" class="bg-light text-center">歌曲列表</div>
+      <div id="asideSongList">
         <div class="list-group list-group-flush">
           <button type="button" class="list-group-item list-group-item-action">Cras justo odio</button>
           <button type="button" class="list-group-item list-group-item-action active">Dapibus ac facilisis in</button>
@@ -21,7 +21,14 @@
         </div>
       </div>
     </aside>
-    <main>主界面</main>
+    <main class="border-left">
+      <div id="uploadContainer">
+        <div id="dragArea" class="rounded text-center text-black-50">
+          <p>点击或拖拽上传</p>
+          <p>单个文件最大限制 10M</p>
+        </div>
+      </div>
+    </main>
   </div>
   
   <script src="../node_modules/jquery/dist/jquery.min.js"></script>
