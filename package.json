@@ -1,0 +1,7 @@
+{
+  "name": "cloud-music-admin",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "JinCheng <JinChengJoker@foxmail.com>",
+  "license": "MIT"
+}
