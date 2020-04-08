@@ -1,0 +1,25 @@
+/* 基础布局 */
+#layout {
+  display: flex;
+  height: 100vh;
+}
+aside {
+  width: 300px;
+}
+main {
+  flex-grow: 1;
+  border: 1px solid blueviolet;
+}
+
+
+/* aside */
+aside {
+  display: flex;
+  flex-direction: column;
+}
+aside .title {
+  padding: 10px 20px;
+}
+aside .song-list {
+  flex-grow: 1;
+}
