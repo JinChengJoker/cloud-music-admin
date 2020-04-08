@@ -56,7 +56,7 @@
     $.get('http://localhost:8888/uptoken', function (data) {
       const token = data.uptoken
       const config = {
-        useCdnDomain: false,
+        useCdnDomain: true,
         region: null
       }
       const putExtra = {
