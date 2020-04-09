@@ -15,11 +15,16 @@
       <div id="asideTitle" class="bg-light text-center">歌曲列表</div>
       <div id="asideSongList">
         <div class="list-group list-group-flush">
-          <button type="button" class="list-group-item list-group-item-action">Cras justo odio</button>
-          <button type="button" class="list-group-item list-group-item-action active">Dapibus ac facilisis in</button>
-          <button type="button" class="list-group-item list-group-item-action">Morbi leo risus</button>
-          <button type="button" class="list-group-item list-group-item-action">Porta ac consectetur ac</button>
-          <button type="button" class="list-group-item list-group-item-action">Vestibulum at eros</button>
+          <button type="button" class="list-group-item list-group-item-action" data-toggle="modal"
+            data-target="#staticBackdrop">Cras justo odio</button>
+          <button type="button" class="list-group-item list-group-item-action active" data-toggle="modal"
+            data-target="#staticBackdrop">Dapibus ac facilisis in</button>
+          <button type="button" class="list-group-item list-group-item-action" data-toggle="modal"
+            data-target="#staticBackdrop">Morbi leo risus</button>
+          <button type="button" class="list-group-item list-group-item-action" data-toggle="modal"
+            data-target="#staticBackdrop">Porta ac consectetur ac</button>
+          <button type="button" class="list-group-item list-group-item-action" data-toggle="modal"
+            data-target="#staticBackdrop">Vestibulum at eros</button>
         </div>
       </div>
     </aside>
@@ -32,6 +37,38 @@
         </div>
       </div>
     </main>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">编辑歌曲</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="song">歌曲</label>
+              <input type="text" class="form-control" id="song">
+            </div>
+            <div class="form-group">
+              <label for="singer">歌手</label>
+              <input type="text" class="form-control" id="singer">
+            </div>
+            <div class="form-group">
+              <label for="url">链接</label>
+              <input type="text" class="form-control" id="url">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="../node_modules/leancloud-storage/dist/av-min.js"></script>
@@ -78,8 +115,8 @@
           var error = function (err) {
             alert("upload error:" + JSON.stringify(err))
           }
-          var complete = function (res) {}
-          var next = function (response) {}
+          var complete = function (res) { }
+          var next = function (response) { }
           var subObject = {
             next: next,
             error: error,
