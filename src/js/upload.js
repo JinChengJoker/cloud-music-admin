@@ -49,9 +49,9 @@
           var key = file.name
           putExtra.params["x:name"] = key.split(".")[0]
           // 设置next,error,complete对应的操作，分别处理相应的进度信息，错误信息，以及完成后的操作
-          var next = function (response) {}
+          var next = function (response) { }
           var complete = function (res) {
-            console.log({
+            window.eventhub.emit('upload', {
               song: res['x:name'],
               url: `http://q8gllkohk.bkt.clouddn.com/${encodeURI(res.key)}`
             })
