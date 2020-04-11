@@ -5,8 +5,17 @@
       song: '',
       singer: '',
       url: ''
+    },
+    create(data) {
+      var Song = AV.Object.extend('Songs')
+      var song = new Song()
+      song.set('song', data.song)
+      song.set('singer', data.singer)
+      song.set('url', data.url)
+      return song.save()
     }
   }
+
   const view = {
     el: '#modal',
     template: `
@@ -47,18 +56,26 @@
         html = html.replace(`__${key}__`, data[key])
       }
       $(this.el).html(html)
+    },
+    showModal() {
+      $('#staticBackdrop').modal('show')
+    },
+    hideModal() {
+      $('#staticBackdrop').modal('hide')
     }
   }
+
   const controller = {
     init(model, view) {
       this.model = model
       this.view = view
       this.view.render(this.model.data)
       this.initLeanCloud()
+      this.bindEvents()
       window.eventhub.on('upload', (data) => {
         Object.assign(this.model.data, data, { title: '上传' })
         this.view.render(this.model.data)
-        $('#staticBackdrop').modal('show')
+        this.view.showModal()
       })
     },
     initLeanCloud() {
@@ -67,12 +84,25 @@
         appKey: "iWAtflSEbeKKAdXiLtwttqYK",
         serverURL: "https://vukqbqtj.lc-cn-n1-shared.com"
       })
-      // var TestObject = AV.Object.extend('TestObject')
-      // var testObject = new TestObject()
-      // testObject.set('words', 'Hello world!')
-      // testObject.save().then(function (testObject) {
-      //   console.log('保存成功。')
-      // })
+    },
+    bindEvents() {
+      $(this.view.el).on('submit', 'form', (e) => {
+        e.preventDefault()
+        this.create()
+      })
+    },
+    create() {
+      const dataArr = ['song', 'singer', 'url']
+      const formData = {}
+      dataArr.map(key => {
+        formData[key] = $(this.view.el).find(`form input[name=${key}]`).val()
+      })
+      this.model.create(formData).then(
+        () => {
+          this.view.hideModal()
+          window.eventhub.emit('create', formData)
+        }
+      )
     }
   }
 

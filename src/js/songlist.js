@@ -5,21 +5,25 @@
         {
           id: 1,
           song: '七里香',
-          singer: '周杰伦'
+          singer: '周杰伦',
+          url: ''
         },
         {
           id: 2,
           song: '一路向北',
-          singer: '周杰伦'
+          singer: '周杰伦',
+          url: ''
         },
         {
           id: 3,
           song: '枫',
-          singer: '周杰伦'
+          singer: '周杰伦',
+          url: ''
         }
       ]
     }
   }
+
   const view = {
     el: 'aside',
     template: `
@@ -41,11 +45,16 @@
       })
     }
   }
+  
   const controller = {
     init(model, view) {
       this.model = model
       this.view = view
       this.view.render(this.model.data)
+      window.eventhub.on('create', (data) => {
+        this.model.data.songList.push(data)
+        this.view.render(this.model.data)
+      })
     }
   }
 
