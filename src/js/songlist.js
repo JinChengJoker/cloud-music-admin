@@ -1,26 +1,18 @@
 {
   const model = {
     data: {
-      songList: [
-        {
-          id: 1,
-          song: '七里香',
-          singer: '周杰伦',
-          url: ''
-        },
-        {
-          id: 2,
-          song: '一路向北',
-          singer: '周杰伦',
-          url: ''
-        },
-        {
-          id: 3,
-          song: '枫',
-          singer: '周杰伦',
-          url: ''
-        }
-      ]
+      songList: []
+    },
+    getSongList() {
+      var songs = new AV.Query('Songs')
+      return songs.find().then((data) => {
+        this.data.songList = data.map(item => {
+          return {
+            id: item.id,
+            ...item.attributes
+          }
+        })
+      })
     }
   }
 
@@ -45,12 +37,17 @@
       })
     }
   }
-  
+
   const controller = {
     init(model, view) {
       this.model = model
       this.view = view
       this.view.render(this.model.data)
+      this.model.getSongList().then(
+        () => {
+          this.view.render(this.model.data)
+        }
+      )
       window.eventhub.on('create', (data) => {
         this.model.data.songList.push(data)
         this.view.render(this.model.data)

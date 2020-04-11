@@ -70,19 +70,11 @@
       this.model = model
       this.view = view
       this.view.render(this.model.data)
-      this.initLeanCloud()
       this.bindEvents()
       window.eventhub.on('upload', (data) => {
         Object.assign(this.model.data, data, { title: '上传' })
         this.view.render(this.model.data)
         this.view.showModal()
-      })
-    },
-    initLeanCloud() {
-      AV.init({
-        appId: "VUKqBqtjbLHJTAXklfGBbQGA-gzGzoHsz",
-        appKey: "iWAtflSEbeKKAdXiLtwttqYK",
-        serverURL: "https://vukqbqtj.lc-cn-n1-shared.com"
       })
     },
     bindEvents() {
