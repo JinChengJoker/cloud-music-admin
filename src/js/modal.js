@@ -43,7 +43,7 @@
     `,
     render(data) {
       let html = this.template
-      for(let key in data) {
+      for (let key in data) {
         html = html.replace(`__${key}__`, data[key])
       }
       $(this.el).html(html)
@@ -54,11 +54,25 @@
       this.model = model
       this.view = view
       this.view.render(this.model.data)
+      this.initLeanCloud()
       window.eventhub.on('upload', (data) => {
         Object.assign(this.model.data, data, { title: '上传' })
         this.view.render(this.model.data)
         $('#staticBackdrop').modal('show')
       })
+    },
+    initLeanCloud() {
+      AV.init({
+        appId: "VUKqBqtjbLHJTAXklfGBbQGA-gzGzoHsz",
+        appKey: "iWAtflSEbeKKAdXiLtwttqYK",
+        serverURL: "https://vukqbqtj.lc-cn-n1-shared.com"
+      })
+      // var TestObject = AV.Object.extend('TestObject')
+      // var testObject = new TestObject()
+      // testObject.set('words', 'Hello world!')
+      // testObject.save().then(function (testObject) {
+      //   console.log('保存成功。')
+      // })
     }
   }
 
