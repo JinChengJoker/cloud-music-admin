@@ -28,10 +28,12 @@
       $(this.el).html(this.template)
       data.songList.map(item => {
         $(`
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            ${item.song}
-            <span>${item.singer}</span>
-          </li>
+          <button type="button" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between align-items-center">
+              ${item.song}
+              <small>${item.singer}</small>
+            </div>
+          </button>
         `)
           .appendTo($(this.el).find('ul.list-group'))
       })
