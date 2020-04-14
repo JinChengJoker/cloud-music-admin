@@ -2,9 +2,22 @@
   const model = {
     data: {
       title: '',
+      id: '',
       song: '',
       singer: '',
       url: ''
+    },
+    resetData() {
+      this.data = {
+        title: '',
+        id: '',
+        song: '',
+        singer: '',
+        url: ''
+      }
+    },
+    setData(data) {
+      Object.assign(this.data, data, { title: data.id ? '编辑' : '上传' })
     },
     create(data) {
       var Song = AV.Object.extend('Songs')
@@ -12,6 +25,13 @@
       song.set('song', data.song)
       song.set('singer', data.singer)
       song.set('url', data.url)
+      return song.save()
+    },
+    update(objectId, data) {
+      var song = AV.Object.createWithoutData('Songs', objectId)
+      for(let key in data) {
+        song.set(key, data[key])
+      }
       return song.save()
     }
   }
@@ -41,7 +61,7 @@
                 </div>
                 <div class="form-group">
                   <label for="url">链接</label>
-                  <input type="text" class="form-control" name="url" value="__url__">
+                  <input type="text" class="form-control" name="url" value="__url__" readonly>
                 </div>
                 <button type="submit" class="btn btn-primary">保存</button>
               </form>
@@ -72,29 +92,61 @@
       this.view.render(this.model.data)
       this.bindEvents()
       window.eventhub.on('upload', (data) => {
-        Object.assign(this.model.data, data, { title: '上传' })
-        this.view.render(this.model.data)
-        this.view.showModal()
+        this.renderAndShowModal(data)
+      })
+      window.eventhub.on('select', (data) => {
+        this.renderAndShowModal(data)
       })
     },
     bindEvents() {
       $(this.view.el).on('submit', 'form', (e) => {
         e.preventDefault()
-        this.create()
+        if (this.model.data.id) {
+          this.update()
+        } else {
+          this.create()
+        }
+      })
+      $(this.view.el).on('hidden.bs.modal', '#staticBackdrop', function (e) {
+        window.eventhub.emit('closeModal')
       })
     },
     create() {
-      const dataArr = ['song', 'singer', 'url']
+      const formData = this.getFormData(['song', 'singer', 'url'])
+      this.model.create(formData).then(
+        (response) => {
+          this.view.hideModal()
+          window.eventhub.emit('create', {
+            id: response.id,
+            ...formData
+          })
+        }
+      )
+    },
+    update() {
+      const formData = this.getFormData(['song', 'singer'])
+      this.model.update(this.model.data.id, formData).then(
+        (response) => {
+          this.view.hideModal()
+          window.eventhub.emit('update', {
+            id: response.id,
+            ...formData
+          })
+        }
+      )
+    },
+    getFormData(dataArr) {
       const formData = {}
       dataArr.map(key => {
         formData[key] = $(this.view.el).find(`form input[name=${key}]`).val()
       })
-      this.model.create(formData).then(
-        () => {
-          this.view.hideModal()
-          window.eventhub.emit('create', formData)
-        }
-      )
+      return formData
+    },
+    renderAndShowModal(data) {
+      this.model.resetData()
+      this.model.setData(data)
+      this.view.render(this.model.data)
+      this.view.showModal()
     }
   }
 
