@@ -45,3 +45,8 @@ main {
   opacity: 0;
   cursor: pointer;
 }
+
+.progress {
+  margin-top: 20px;
+  opacity: 0;
+}
